@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  --color-studio-bg: #f4f1ed;
+  --color-studio-white: #ffffff;
+  --color-studio-black: #111111;
+  --color-studio-gold: #c9a35b;
+  --color-studio-beige: #e8e1db;
+  
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+  
+  --animate-fade-in: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-slide-up: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-studio-bg text-studio-black antialiased overflow-x-hidden;
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    @apply tracking-wide font-normal;
+  }
+}
+
+@layer utilities {
+  .text-gold {
+    @apply text-studio-gold;
+  }
+  .bg-gold {
+    @apply bg-studio-gold;
+  }
+  .border-gold {
+    @apply border-studio-gold;
+  }
+  .hover-gold {
+    @apply hover:text-studio-gold transition-colors duration-300;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-studio-bg;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-studio-gold/30 hover:bg-studio-gold/60 transition-colors rounded;
+  }
+
+  /* Swiper pagination override */
+  .swiper-pagination-bullet {
+    @apply opacity-100 w-2 h-2 transition-all duration-300;
+    background-color: rgba(255, 255, 255, 0.5) !important;
+  }
+  .swiper-pagination-bullet-active {
+    @apply w-6 rounded-full;
+    background-color: #c9a35b !important;
+  }
+}
+
+/* Page transitions / Framer-motion helper */
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Elegant line details */
+.gold-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c9a35b 50%, transparent);
+  width: 100%;
+}
