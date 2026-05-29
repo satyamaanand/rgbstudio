@@ -1,5 +1,5 @@
 import { Mail, Phone, MapPin, ArrowUp } from "lucide-react";
-import logoImg from "../assets/extracted/logo.PNG";
+import logoImg from "../assets/extracted/logo.png";
 
 export default function Footer() {
   const scrollToSection = (targetId) => {
