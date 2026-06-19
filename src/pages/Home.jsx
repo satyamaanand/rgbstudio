@@ -4,13 +4,13 @@ import { MessageSquare } from "lucide-react";
 
 // Section imports
 import HeroSlider from "../sections/HeroSlider";
-import About from "../sections/About";
 import StudioDetails from "../sections/StudioDetails";
 import Equipments from "../sections/Equipments";
 import StudioGallery from "../sections/StudioGallery";
 import Guidelines from "../sections/Guidelines";
 import StudioOnRent from "../sections/StudioOnRent";
 import BookingForm from "../sections/BookingForm";
+import About from "../sections/About";
 
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -59,13 +59,13 @@ export default function Home() {
 
       {/* Unified Sections */}
       <HeroSlider />
-      <About />
       <StudioDetails />
       <Equipments />
       <StudioGallery />
       <Guidelines />
       <StudioOnRent />
       <BookingForm />
+      <About />
 
       {/* Floating Instant Inquiry WhatsApp Button */}
       <a

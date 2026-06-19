@@ -2,9 +2,9 @@ import { Check, ShieldCheck, Cpu } from "lucide-react";
 import { motion } from "framer-motion";
 
 // Import extracted PDF assets
-import lShapeSetup from "../assets/extracted/gallery10.jpeg";
-import lightingGear from "../assets/extracted/heroslider3.jpeg";
-import propsSetup from "../assets/extracted/gallery6.jpeg";
+import lShapeSetup from "../assets/images/onrent1.jpg";
+import lightingGear from "../assets/images/onrent2.jpg";
+import propsSetup from "../assets/images/onrent3.jpg";
 
 const amenities = [
   "Professional Godox & Elinchrom Strobes",
@@ -68,7 +68,7 @@ export default function StudioOnRent() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="col-span-6 h-[220px] overflow-hidden rounded shadow-sm"
+              className="col-span-6 h-[300px] overflow-hidden rounded shadow-sm"
             >
               <img
                 src={lightingGear}
@@ -82,7 +82,7 @@ export default function StudioOnRent() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="col-span-6 h-[220px] overflow-hidden rounded shadow-sm"
+              className="col-span-6 h-[300px] overflow-hidden rounded shadow-sm"
             >
               <img
                 src={propsSetup}
@@ -101,14 +101,6 @@ export default function StudioOnRent() {
               Studio on Rent
             </h2>
 
-            {/* Price badge */}
-            <div className="flex items-baseline space-x-2 mb-6">
-              <span className="text-4xl font-serif text-[#111111]">₹2,500</span>
-              <span className="text-gray-500 uppercase tracking-widest text-xs">/ Hour</span>
-              <span className="text-[9px] uppercase bg-[#f4f1ed] text-[#888] font-bold px-2 py-1 ml-4 border border-[#e8e1db] rounded">
-                Minimum 2 Hours
-              </span>
-            </div>
 
             {/* Perfect For Highlight Copy */}
             <p className="text-[#c9a35b] font-serif text-lg italic mb-6 leading-relaxed">

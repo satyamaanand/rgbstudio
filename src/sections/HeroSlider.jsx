@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
-import img1 from "../assets/extracted/heroslider1.jpg";
-import img2 from "../assets/extracted/heroslider2.jpeg";
-import img3 from "../assets/extracted/heroslider3.jpeg";
-import img4 from "../assets/extracted/heroslider4.jpeg";
-import img5 from "../assets/extracted/heroslider5.jpeg";
-import img6 from "../assets/extracted/heroslider6.jpg";
+import img1 from "../assets/images/heroslider1.jpg";
+import img2 from "../assets/images/heroslider2.jpg";
+import img3 from "../assets/images/heroslider3.jpg";
+import img4 from "../assets/images/heroslider4.jpg";
+import img5 from "../assets/images/heroslider5.jpg";
+import img6 from "../assets/images/heroslider6.jpg";
 
 const heroImages = [img1, img2, img3, img4, img5, img6];
 

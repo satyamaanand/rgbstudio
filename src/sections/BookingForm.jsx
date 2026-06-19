@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { MessageSquare, Mail, Phone, MapPin, Clock } from "lucide-react";
+import { MessageSquare, Mail, Phone, MapPin, Clock, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Import a high-fashion portrait from the PDF for the booking card
-import bookingBackground from "../assets/extracted/booking1.jpeg";
+import bookingBackground from "../assets/images/booking1.jpg";
 
 export default function BookingForm() {
   const [formData, setFormData] = useState({
@@ -11,15 +11,36 @@ export default function BookingForm() {
     phone: "",
     email: "",
     preferredDate: "",
-    service: "Fashion Shoot",
+    bookingPurpose: "Fashion Shoot",
+    purposeDetails: "",
+    preferredStartTime: "",
+    rentalDuration: "3 Hours",
+    teamSize: "1–3 People",
+    equipmentRequirements: [],
     message: "",
   });
 
   const [toastMessage, setToastMessage] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    setFormData((prev) => {
+      const currentReqs = prev.equipmentRequirements || [];
+      const updatedReqs = checked
+        ? [...currentReqs, value]
+        : currentReqs.filter((item) => item !== value);
+      return { ...prev, equipmentRequirements: updatedReqs };
+    });
   };
 
   const getFormattedDate = (dateStr) => {
@@ -31,63 +52,133 @@ export default function BookingForm() {
     });
   };
 
+  const formatTime12h = (timeStr) => {
+    if (!timeStr) return "";
+    const [hoursStr, minutesStr] = timeStr.split(":");
+    const hours = parseInt(hoursStr, 10);
+    const ampm = hours >= 12 ? "PM" : "AM";
+    const hours12 = hours % 12 || 12;
+    return `${hours12.toString().padStart(2, "0")}:${minutesStr} ${ampm}`;
+  };
+
   const showToast = (message) => {
     setToastMessage(message);
     setTimeout(() => setToastMessage(null), 5000);
   };
 
-  const handleWhatsAppReservation = (e) => {
-    e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.email) {
-      showToast("Please fill in all required fields marked with *");
-      return;
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) {
+      newErrors.name = "Full Name is required";
     }
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone Number is required";
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email Address is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    if (!formData.preferredStartTime) {
+      newErrors.preferredStartTime = "Preferred Start Time is required";
+    }
+    if (!formData.rentalDuration) {
+      newErrors.rentalDuration = "Rental Duration is required";
+    }
+    if (!formData.teamSize) {
+      newErrors.teamSize = "Team Size is required";
+    }
+    if (formData.bookingPurpose === "Other" && !formData.purposeDetails.trim()) {
+      newErrors.purposeDetails = "Purpose Details are required when 'Other' is selected";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
+  const handleWhatsAppSubmit = () => {
     const formattedDate = getFormattedDate(formData.preferredDate);
+    const formattedTime = formatTime12h(formData.preferredStartTime);
+    const equipList = formData.equipmentRequirements.length > 0 
+      ? formData.equipmentRequirements.map(item => `* ${item}`).join("\n")
+      : "* None";
+    const purposeText = formData.bookingPurpose === "Other"
+      ? `Other (${formData.purposeDetails})`
+      : formData.bookingPurpose;
 
-    // Core message format matching prompt instruction
-    const waText = `Hi RGB Studio, I want to book the studio on ${formattedDate} for a ${formData.service}.
+    const waText = `Hello RGB Studio,
+
+I would like to make a booking request.
+
 Name: ${formData.name}
 Phone: ${formData.phone}
 Email: ${formData.email}
-${formData.message ? `Notes: ${formData.message}` : ""}`;
+
+Booking Purpose: ${purposeText}
+Preferred Date: ${formattedDate}
+Preferred Start Time: ${formattedTime}
+Rental Duration: ${formData.rentalDuration}
+Team Size: ${formData.teamSize}
+
+Equipment Requirements:
+${equipList}
+
+Additional Notes:
+${formData.message || "None"}
+
+Please let me know if the studio is available at the requested date and time.`;
 
     const encodedText = encodeURIComponent(waText);
     const whatsappNum = "919619666066"; // Studio WhatsApp
 
-    showToast("Launching WhatsApp Reservation Link...");
+    showToast("Launching WhatsApp...");
     window.open(`https://wa.me/${whatsappNum}?text=${encodedText}`, "_blank");
   };
 
-  const handleEmailInquiry = (e) => {
-    e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.email) {
-      showToast("Please fill in all required fields marked with *");
-      return;
-    }
-
+  const handleGmailSubmit = () => {
     const formattedDate = getFormattedDate(formData.preferredDate);
-    const emailBody = `Hi RGB Studio,
+    const formattedTime = formatTime12h(formData.preferredStartTime);
+    const equipList = formData.equipmentRequirements.length > 0 
+      ? formData.equipmentRequirements.map(item => `* ${item}`).join("\n")
+      : "* None";
+    const purposeText = formData.bookingPurpose === "Other"
+      ? `Other (${formData.purposeDetails})`
+      : formData.bookingPurpose;
 
-I would like to book the studio. Here are my inquiry details:
+    const emailBody = `Hello RGB Studio,
 
+I would like to make a booking request.
+
+Name: ${formData.name}
+Phone: ${formData.phone}
+Email: ${formData.email}
+
+Booking Purpose: ${purposeText}
 Preferred Date: ${formattedDate}
-Service/Package: ${formData.service}
+Preferred Start Time: ${formattedTime}
+Rental Duration: ${formData.rentalDuration}
+Team Size: ${formData.teamSize}
 
-Contact Info:
-- Full Name: ${formData.name}
-- Phone Number: ${formData.phone}
-- Email: ${formData.email}
+Equipment Requirements:
+${equipList}
 
-Message details:
-${formData.message || "No additional notes provided."}`;
+Additional Notes:
+${formData.message || "None"}
 
-    const encodedSubject = encodeURIComponent(`RGB Studio Booking Inquiry - ${formData.service}`);
+Please let me know if the studio is available at the requested date and time.`;
+
+    const encodedSubject = encodeURIComponent(`RGB Studio Booking Inquiry - ${purposeText}`);
     const encodedBody = encodeURIComponent(emailBody);
-    const studioEmail = "anurag19utsav@gmail.com";
+    const studioEmail = "rgbstudio.mumbai@gmail.com";
 
-    showToast("Opening your mail client...");
-    window.location.href = `mailto:${studioEmail}?subject=${encodedSubject}&body=${encodedBody}`;
+    showToast("Opening Gmail Compose...");
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${studioEmail}&su=${encodedSubject}&body=${encodedBody}`, "_blank");
+  };
+
+  const handleSubmitBookingRequest = (e) => {
+    e?.preventDefault();
+    if (validateForm()) {
+      setIsModalOpen(true);
+    }
   };
 
   return (
@@ -141,8 +232,8 @@ ${formData.message || "No additional notes provided."}`;
                   <Mail className="text-[#c9a35b] shrink-0 mt-0.5" size={18} />
                   <div>
                     <h4 className="text-[10px] uppercase tracking-widest font-bold text-[#111111] mb-1">Email Helpline</h4>
-                    <a href="mailto:anurag19utsav@gmail.com" className="text-gray-500 text-xs font-light hover:text-[#c9a35b] transition-colors">
-                      anurag19utsav@gmail.com
+                    <a href="mailto:rgbstudio.mumbai@gmail.com" className="text-gray-500 text-xs font-light hover:text-[#c9a35b] transition-colors">
+                      rgbstudio.mumbai@gmail.com
                     </a>
                   </div>
                 </div>
@@ -198,9 +289,16 @@ ${formData.message || "No additional notes provided."}`;
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="e.g. Full Name"
-                    className="bg-[#f4f1ed]/50 border border-[#e8e1db] focus:border-[#c9a35b] px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded"
+                    placeholder="e.g. Your Name"
+                    className={`bg-[#f4f1ed]/50 border ${
+                      errors.name ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
+                    } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
                   />
+                  {errors.name && (
+                    <span className="text-red-500 text-[10px] mt-1 font-semibold tracking-wide">
+                      {errors.name}
+                    </span>
+                  )}
                 </div>
 
                 {/* Phone Number */}
@@ -216,8 +314,15 @@ ${formData.message || "No additional notes provided."}`;
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="e.g. +91 96196 66066"
-                    className="bg-[#f4f1ed]/50 border border-[#e8e1db] focus:border-[#c9a35b] px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded"
+                    className={`bg-[#f4f1ed]/50 border ${
+                      errors.phone ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
+                    } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
                   />
+                  {errors.phone && (
+                    <span className="text-red-500 text-[10px] mt-1 font-semibold tracking-wide">
+                      {errors.phone}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -235,8 +340,15 @@ ${formData.message || "No additional notes provided."}`;
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="e.g. rgbstudio@example.com"
-                    className="bg-[#f4f1ed]/50 border border-[#e8e1db] focus:border-[#c9a35b] px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded"
+                    className={`bg-[#f4f1ed]/50 border ${
+                      errors.email ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
+                    } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
                   />
+                  {errors.email && (
+                    <span className="text-red-500 text-[10px] mt-1 font-semibold tracking-wide">
+                      {errors.email}
+                    </span>
+                  )}
                 </div>
 
                 {/* Preferred Date */}
@@ -255,25 +367,162 @@ ${formData.message || "No additional notes provided."}`;
                 </div>
               </div>
 
-              {/* Service / Package */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {/* Booking Purpose */}
+                <div className="flex flex-col">
+                  <label htmlFor="bookingPurpose" className="text-[9px] uppercase tracking-widest font-bold text-gray-500 mb-2">
+                    Booking Purpose
+                  </label>
+                  <select
+                    id="bookingPurpose"
+                    name="bookingPurpose"
+                    value={formData.bookingPurpose}
+                    onChange={handleChange}
+                    className="bg-[#f4f1ed]/50 border border-[#e8e1db] focus:border-[#c9a35b] px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded appearance-none"
+                  >
+                    <option value="Fashion Shoot">Fashion Shoot</option>
+                    <option value="Portfolio Shoot">Portfolio Shoot</option>
+                    <option value="Product Photography">Product Photography</option>
+                    <option value="Commercial Shoot">Commercial Shoot</option>
+                    <option value="Video Production">Video Production</option>
+                    <option value="Content Creation">Content Creation</option>
+                    <option value="Podcast Recording">Podcast Recording</option>
+                    <option value="Workshop / Training">Workshop / Training</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                {/* Preferred Start Time */}
+                <div className="flex flex-col">
+                  <label htmlFor="preferredStartTime" className="text-[9px] uppercase tracking-widest font-bold text-gray-500 mb-2">
+                    Preferred Start Time *
+                  </label>
+                  <input
+                    type="time"
+                    id="preferredStartTime"
+                    name="preferredStartTime"
+                    required
+                    value={formData.preferredStartTime}
+                    onChange={handleChange}
+                    className={`bg-[#f4f1ed]/50 border ${
+                      errors.preferredStartTime ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
+                    } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
+                  />
+                  {errors.preferredStartTime && (
+                    <span className="text-red-500 text-[10px] mt-1 font-semibold tracking-wide">
+                      {errors.preferredStartTime}
+                    </span>
+                  )}
+                  <span className="text-[9px] text-gray-400 mt-1 font-light italic">
+                    Actual booking time will be confirmed based on studio availability.
+                  </span>
+                </div>
+              </div>
+
+              {/* Dynamic Other Booking Purpose details */}
+              <AnimatePresence>
+                {formData.bookingPurpose === "Other" && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex flex-col overflow-hidden"
+                  >
+                    <label htmlFor="purposeDetails" className="text-[9px] uppercase tracking-widest font-bold text-gray-500 mb-2">
+                      Purpose Details *
+                    </label>
+                    <input
+                      type="text"
+                      id="purposeDetails"
+                      name="purposeDetails"
+                      required
+                      value={formData.purposeDetails}
+                      onChange={handleChange}
+                      placeholder="Please describe your booking purpose"
+                      className={`bg-[#f4f1ed]/50 border ${
+                        errors.purposeDetails ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
+                      } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
+                    />
+                    {errors.purposeDetails && (
+                      <span className="text-red-500 text-[10px] mt-1 font-semibold tracking-wide">
+                        {errors.purposeDetails}
+                      </span>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {/* Rental Duration */}
+                <div className="flex flex-col">
+                  <label htmlFor="rentalDuration" className="text-[9px] uppercase tracking-widest font-bold text-gray-500 mb-2">
+                    Rental Duration *
+                  </label>
+                  <select
+                    id="rentalDuration"
+                    name="rentalDuration"
+                    value={formData.rentalDuration}
+                    onChange={handleChange}
+                    className="bg-[#f4f1ed]/50 border border-[#e8e1db] focus:border-[#c9a35b] px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded appearance-none"
+                  >
+                    <option value="1 Hour">1 Hour</option>
+                    <option value="2 Hours">2 Hours</option>
+                    <option value="3 Hours">3 Hours</option>
+                    <option value="4 Hours">4 Hours</option>
+                    <option value="Half Day (5–6 Hours)">Half Day (5–6 Hours)</option>
+                    <option value="Full Day (8–10 Hours)">Full Day (8–10 Hours)</option>
+                  </select>
+                </div>
+
+                {/* Team Size */}
+                <div className="flex flex-col">
+                  <label htmlFor="teamSize" className="text-[9px] uppercase tracking-widest font-bold text-gray-500 mb-2">
+                    Team Size *
+                  </label>
+                  <select
+                    id="teamSize"
+                    name="teamSize"
+                    value={formData.teamSize}
+                    onChange={handleChange}
+                    className="bg-[#f4f1ed]/50 border border-[#e8e1db] focus:border-[#c9a35b] px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded appearance-none"
+                  >
+                    <option value="1–3 People">1–3 People</option>
+                    <option value="4–6 People">4–6 People</option>
+                    <option value="7–10 People">7–10 People</option>
+                    <option value="10+ People">10+ People</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Equipment Requirements */}
               <div className="flex flex-col">
-                <label htmlFor="service" className="text-[9px] uppercase tracking-widest font-bold text-gray-500 mb-2">
-                  Service / Package
+                <label className="text-[9px] uppercase tracking-widest font-bold text-gray-500 mb-3">
+                  Equipment Requirements
                 </label>
-                <select
-                  id="service"
-                  name="service"
-                  value={formData.service}
-                  onChange={handleChange}
-                  className="bg-[#f4f1ed]/50 border border-[#e8e1db] focus:border-[#c9a35b] px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded appearance-none"
-                >
-                  <option value="Fashion Shoot">Fashion Shoot</option>
-                  <option value="Commercial Project">Commercial Project</option>
-                  <option value="Content Creation">Content Creation</option>
-                  <option value="Studio Rental (Hourly)">Studio Rental (Hourly)</option>
-                  <option value="Editorial Shoot">Editorial Shoot</option>
-                  <option value="Portrait Session">Portrait Session</option>
-                </select>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#f4f1ed]/30 p-4 border border-[#e8e1db] rounded">
+                  {[
+                    "Strobes",
+                    "Softboxes",
+                    "Continuous Lights",
+                    "Backdrops",
+                    "Reflectors",
+                    "Props",
+                    "Makeup Area",
+                    "Not Sure Yet"
+                  ].map((item) => (
+                    <label key={item} className="flex items-center space-x-2 text-xs text-gray-600 font-light cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        value={item}
+                        checked={formData.equipmentRequirements.includes(item)}
+                        onChange={handleCheckboxChange}
+                        className="accent-[#c9a35b] border-[#e8e1db] rounded w-4 h-4"
+                      />
+                      <span>{item}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
 
               {/* Inquiry Message */}
@@ -292,39 +541,13 @@ ${formData.message || "No additional notes provided."}`;
                 />
               </div>
 
-              {/* CTA Action Buttons Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-
-                {/* Secondary Button: Email Inquiry */}
-                <button
-                  type="button"
-                  onClick={handleEmailInquiry}
-                  className="w-full text-[10px] uppercase tracking-[0.2em] font-bold border border-[#111111] text-[#111111] hover:bg-[#111111] hover:text-white py-4 transition-all duration-300 flex justify-center items-center cursor-pointer rounded"
-                >
-                  <Mail size={14} className="mr-2" />
-                  Email Link
-                </button>
-
-                {/* Primary Button: WhatsApp Reservation */}
-                <button
-                  type="button"
-                  onClick={handleWhatsAppReservation}
-                  className="w-full text-[10px] uppercase tracking-[0.2em] font-bold bg-[#111111] hover:bg-[#c9a35b] text-white py-4 transition-all duration-300 flex justify-center items-center cursor-pointer rounded shadow-sm hover:shadow"
-                >
-                  <MessageSquare size={14} className="mr-2 text-[#c9a35b]" />
-                  Open WhatsApp
-                </button>
-
-              </div>
-
               {/* Main Prominent Reservation CTA */}
               <button
                 type="button"
-                onClick={handleWhatsAppReservation}
-                className="w-full text-xs uppercase tracking-[0.2em] font-semibold bg-[#c9a35b] hover:bg-[#b08c4b] text-white py-4.5 transition-all duration-300 flex justify-center items-center cursor-pointer rounded shadow-md"
+                onClick={handleSubmitBookingRequest}
+                className="w-full text-xs uppercase tracking-[0.2em] font-semibold bg-[#c9a35b] hover:bg-[#b08c4b] text-white py-4.5 transition-all duration-300 flex justify-center items-center cursor-pointer rounded shadow-md mt-6"
               >
-                <MessageSquare size={16} className="mr-2" />
-                OPEN WHATSAPP RESERVATION
+                SUBMIT BOOKING REQUEST
               </button>
 
             </form>
@@ -332,6 +555,77 @@ ${formData.message || "No additional notes provided."}`;
 
         </div>
       </div>
+
+      {/* Choice Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+            {/* Backdrop click to close */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+              className="absolute inset-0 cursor-pointer"
+            />
+
+            {/* Modal Box */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="bg-white border border-[#e8e1db] p-8 md:p-10 rounded shadow-2xl max-w-md w-full relative z-51 text-center"
+            >
+              {/* Close Icon */}
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-[#111111] transition-colors cursor-pointer"
+                aria-label="Close modal"
+              >
+                <X size={20} />
+              </button>
+
+              {/* Gold decorative line */}
+              <div className="w-12 h-[1px] bg-[#c9a35b] mx-auto mb-6" />
+
+              <h3 className="font-serif text-2xl md:text-3xl font-light text-[#111111] mb-3 tracking-wide">
+                Choose Contact Method
+              </h3>
+              <p className="text-gray-500 font-light text-xs md:text-sm mb-8 max-w-xs mx-auto leading-relaxed">
+                Your booking request is ready to send.
+              </p>
+
+              {/* Action Buttons */}
+              <div className="space-y-4">
+                {/* Continue with WhatsApp */}
+                <button
+                  onClick={() => {
+                    handleWhatsAppSubmit();
+                    setIsModalOpen(false);
+                  }}
+                  className="w-full text-xs uppercase tracking-[0.2em] font-semibold bg-[#111111] hover:bg-[#c9a35b] text-white py-4 transition-all duration-300 flex justify-center items-center cursor-pointer rounded shadow-sm hover:shadow"
+                >
+                  <MessageSquare size={15} className="mr-2 text-[#c9a35b]" />
+                  Continue with WhatsApp
+                </button>
+
+                {/* Continue with Gmail */}
+                <button
+                  onClick={() => {
+                    handleGmailSubmit();
+                    setIsModalOpen(false);
+                  }}
+                  className="w-full text-xs uppercase tracking-[0.2em] font-semibold border border-[#111111] text-[#111111] hover:bg-[#111111] hover:text-white py-4 transition-all duration-300 flex justify-center items-center cursor-pointer rounded"
+                >
+                  <Mail size={15} className="mr-2" />
+                  Continue with Gmail
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

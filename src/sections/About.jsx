@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import studioSetup1 from "../assets/extracted/about1.jpeg";
-import studioSetup2 from "../assets/extracted/about2.jpeg";
+import studioSetup1 from "../assets/images/about1.jpeg";
+import studioSetup2 from "../assets/images/about2.jpeg";
 
 export default function About() {
   return (
