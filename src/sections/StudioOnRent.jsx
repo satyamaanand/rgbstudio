@@ -149,7 +149,7 @@ export default function StudioOnRent() {
                 onClick={scrollToBooking}
                 className="text-xs uppercase tracking-[0.2em] font-semibold bg-[#111111] text-white hover:bg-[#c9a35b] px-8 py-4 transition-all duration-300 w-full sm:w-auto text-center cursor-pointer shadow-sm"
               >
-                Book Studio
+                Book Now
               </button>
             </div>
 

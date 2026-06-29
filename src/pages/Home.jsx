@@ -103,7 +103,7 @@ export default function Home() {
               onClick={scrollToBooking}
               className="bg-[#c9a35b] hover:bg-[#b08c4b] text-white text-[10px] uppercase tracking-widest font-semibold px-5 py-2.5 rounded transition-colors cursor-pointer"
             >
-              Book Studio
+              Book Now
             </button>
           </motion.div>
         )}

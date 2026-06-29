@@ -38,7 +38,7 @@ export default function Navbar() {
     { name: "Home", target: "hero" },
     { name: "Studio Details", target: "details" },
     { name: "Equipments", target: "equipments" },
-    { name: "Studio Gallery", target: "gallery" },
+    { name: "Gallery", target: "gallery" },
     { name: "Guidelines", target: "guidelines" },
     { name: "About Us", target: "about" },
     { name: "Testimonials", target: "testimonials" },
@@ -125,7 +125,7 @@ export default function Navbar() {
                 : "border-[#111111] text-white bg-[#111111] hover:bg-[#c9a35b] hover:border-[#c9a35b]"
                 }`}
             >
-              Book Studio
+              Book Now
             </button>
           </div>
 
@@ -192,7 +192,7 @@ export default function Navbar() {
                   onClick={() => scrollToSection("booking")}
                   className="bg-[#c9a35b] text-white text-xs uppercase tracking-widest font-semibold px-8 py-3.5 hover:bg-[#b08c4b] transition-colors cursor-pointer"
                 >
-                  Book Studio
+                  Book Now
                 </button>
               </motion.div>
             </div>
