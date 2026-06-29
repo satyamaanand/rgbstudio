@@ -89,7 +89,7 @@ export default function Navbar() {
           </button>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center justify-center gap-10 xl:gap-12 2xl:gap-14 justify-self-center">
+          <div className="hidden lg:flex items-center justify-center space-x-8 justify-self-center">
             {navLinks.map((link) => {
               const isActive = activeSection === link.target;
               return (
