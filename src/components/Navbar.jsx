@@ -38,7 +38,7 @@ export default function Navbar() {
     { name: "Home", target: "hero" },
     { name: "Studio Details", target: "details" },
     { name: "Equipments", target: "equipments" },
-    { name: "Studio Gallery", target: "gallery" },
+    { name: "Gallery", target: "gallery" },
     { name: "Guidelines", target: "guidelines" },
     { name: "About Us", target: "about" },
     { name: "Testimonials", target: "testimonials" },
