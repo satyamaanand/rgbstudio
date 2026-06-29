@@ -40,7 +40,7 @@ export default function Footer() {
             />
           </button>
           <p className="text-gray-400 text-xs leading-relaxed max-w-xs pt-2">
-            A premium visual production and photography space, telling genuine stories through shadows, light, and luxury design.
+            RGB Studio provides rentable space with various backdrops and sets, as well as professional tools and lights that meet international industry requirements.
           </p>
           {/* Social Icons */}
           <div className="flex space-x-4 pt-2">
@@ -76,21 +76,19 @@ export default function Footer() {
               <button onClick={() => scrollToSection("equipments")} className="text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer">Equipments</button>
             </li>
             <li>
-              <button
-                onClick={() => scrollToSection("gallery")}
-                className="text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer"
-              >
-                Studio Gallery
-              </button>
+              <button onClick={() => scrollToSection("gallery")} className="text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer">Studio Gallery</button>
             </li>
             <li>
               <button onClick={() => scrollToSection("guidelines")} className="text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer">Guidelines</button>
             </li>
             <li>
-              <button onClick={() => scrollToSection("rent")} className="text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer">Studio on Rent</button>
+              <button onClick={() => scrollToSection("about")} className="text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer">About Us</button>
             </li>
             <li>
-              <button onClick={() => scrollToSection("about")} className="text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer">About Us</button>
+              <button onClick={() => scrollToSection("testimonials")} className="text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer">Testimonials</button>
+            </li>
+            <li>
+              <button onClick={() => scrollToSection("rent")} className="text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer">Studio On Rent</button>
             </li>
           </ul>
         </div>
@@ -128,18 +126,21 @@ export default function Footer() {
               </a>
             </li>
           </ul>
+        </div>
 
-          {/* Premium Google Maps Embed */}
-          <div className="mt-6 flex flex-col space-y-2">
+        {/* Location Map */}
+        <div>
+          <h4 className="font-serif text-sm font-semibold tracking-[0.2em] uppercase mb-6 text-[#c9a35b]">Location Map</h4>
+          <div className="flex flex-col space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-[9px] uppercase tracking-widest text-[#c9a35b] font-semibold">Location Map</span>
+              <span className="text-[9px] uppercase tracking-widest text-gray-400 font-semibold">Google Maps</span>
               <a
                 href="https://maps.app.goo.gl/i6M9ZR2zqBkD898b9"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[9px] uppercase tracking-widest text-gray-400 hover:text-[#c9a35b] transition-colors duration-300 font-semibold"
               >
-                Open in Google Maps →
+                Open Map →
               </a>
             </div>
             <div className="overflow-hidden rounded-2xl border border-[#2a2a2a] shadow-lg group">
@@ -155,25 +156,6 @@ export default function Footer() {
               ></iframe>
             </div>
           </div>
-        </div>
-
-        {/* Studio Hours */}
-        <div>
-          <h4 className="font-serif text-sm font-semibold tracking-[0.2em] uppercase mb-6 text-[#c9a35b]">Studio Hours</h4>
-          <ul className="space-y-3 text-xs text-gray-400">
-            <li className="flex justify-between border-b border-[#222222] pb-1.5">
-              <span>Monday - Friday</span>
-              <span>09:00 AM - 08:00 PM</span>
-            </li>
-            <li className="flex justify-between border-b border-[#222222] pb-1.5">
-              <span>Saturday</span>
-              <span>10:00 AM - 06:00 PM</span>
-            </li>
-            <li className="flex justify-between pb-1.5">
-              <span>Sunday</span>
-              <span className="text-[#c9a35b]">By Appointment</span>
-            </li>
-          </ul>
         </div>
 
       </div>

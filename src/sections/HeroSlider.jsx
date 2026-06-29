@@ -72,7 +72,7 @@ export default function HeroSlider() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-xs md:text-sm uppercase tracking-[0.4em] text-[#c9a35b] font-semibold mb-4"
         >
-          Premium Rental Photography Space
+          PREMIUM RENTAL STUDIO SPACE
         </motion.span>
 
         {/* Animated Headline */}
@@ -82,7 +82,7 @@ export default function HeroSlider() {
           transition={{ duration: 1, delay: 0.5 }}
           className="text-4xl md:text-6xl lg:text-7xl font-serif leading-[1.2] mb-6 max-w-4xl font-light tracking-wide"
         >
-          Create Without Limits
+          SHOOT CREATE REPEAT
         </motion.h1>
 
         {/* Elegant Accent Line */}
@@ -101,7 +101,7 @@ export default function HeroSlider() {
           className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 w-full sm:w-auto"
         >
           <button
-            onClick={() => scrollToSection("about")}
+            onClick={() => scrollToSection("gallery")}
             className="text-xs uppercase tracking-[0.2em] font-semibold bg-transparent text-white border border-white px-8 py-4 hover:bg-white hover:text-[#111111] transition-all duration-300 w-full sm:w-auto cursor-pointer"
           >
             Explore Studio
@@ -135,7 +135,7 @@ export default function HeroSlider() {
           animate={{ y: [0, 6, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           className="cursor-pointer"
-          onClick={() => scrollToSection("about")}
+          onClick={() => scrollToSection("why-choose")}
         >
           <ChevronDown size={24} className="text-white/50 hover:text-[#c9a35b] transition-colors" />
         </motion.div>

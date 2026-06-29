@@ -11,6 +11,8 @@ import Guidelines from "../sections/Guidelines";
 import StudioOnRent from "../sections/StudioOnRent";
 import BookingForm from "../sections/BookingForm";
 import About from "../sections/About";
+import Testimonials from "../sections/Testimonials";
+import WhyChoose from "../sections/WhyChoose";
 
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -59,13 +61,15 @@ export default function Home() {
 
       {/* Unified Sections */}
       <HeroSlider />
+      <WhyChoose />
       <StudioDetails />
       <Equipments />
       <StudioGallery />
       <Guidelines />
+      <About />
+      <Testimonials />
       <StudioOnRent />
       <BookingForm />
-      <About />
 
       {/* Floating Instant Inquiry WhatsApp Button */}
       <a
@@ -93,7 +97,7 @@ export default function Home() {
           >
             <div>
               <span className="text-[9px] uppercase tracking-widest text-[#c9a35b] font-bold block">RGB Studio</span>
-              <span className="text-white text-xs font-serif italic">Create Without Limits</span>
+              <span className="text-white text-xs font-serif italic">Shoot Create Repeat</span>
             </div>
             <button
               onClick={scrollToBooking}

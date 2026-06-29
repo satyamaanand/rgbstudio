@@ -14,7 +14,7 @@ export default function Navbar() {
       setIsScrolled(scrollTop > 50);
 
       // Section highlighters
-      const sections = ["hero", "about", "details", "equipments", "gallery", "guidelines", "rent", "booking"];
+      const sections = ["hero", "details", "equipments", "gallery", "guidelines", "about", "testimonials", "rent", "booking"];
       const scrollPosition = window.scrollY + 120; // Detection offset
 
       for (const section of sections) {
@@ -40,8 +40,9 @@ export default function Navbar() {
     { name: "Equipments", target: "equipments" },
     { name: "Studio Gallery", target: "gallery" },
     { name: "Guidelines", target: "guidelines" },
-    { name: "Studio on Rent", target: "rent" },
     { name: "About Us", target: "about" },
+    { name: "Testimonials", target: "testimonials" },
+    { name: "Studio On Rent", target: "rent" },
   ];
 
   const scrollToSection = (targetId) => {

@@ -98,7 +98,7 @@ export default function BookingForm() {
   const handleWhatsAppSubmit = () => {
     const formattedDate = getFormattedDate(formData.preferredDate);
     const formattedTime = formatTime12h(formData.preferredStartTime);
-    const equipList = formData.equipmentRequirements.length > 0 
+    const equipList = formData.equipmentRequirements.length > 0
       ? formData.equipmentRequirements.map(item => `* ${item}`).join("\n")
       : "* None";
     const purposeText = formData.bookingPurpose === "Other"
@@ -137,7 +137,7 @@ Please let me know if the studio is available at the requested date and time.`;
   const handleGmailSubmit = () => {
     const formattedDate = getFormattedDate(formData.preferredDate);
     const formattedTime = formatTime12h(formData.preferredStartTime);
-    const equipList = formData.equipmentRequirements.length > 0 
+    const equipList = formData.equipmentRequirements.length > 0
       ? formData.equipmentRequirements.map(item => `* ${item}`).join("\n")
       : "* None";
     const purposeText = formData.bookingPurpose === "Other"
@@ -253,7 +253,7 @@ Please let me know if the studio is available at the requested date and time.`;
                   <div>
                     <h4 className="text-[10px] uppercase tracking-widest font-bold text-[#111111] mb-1">Operational Hours</h4>
                     <p className="text-gray-500 text-xs font-light">
-                      Monday - Saturday: 09:00 AM - 08:00 PM | Sunday: By Appointment
+                      Monday - Sunday: 09:00 AM - 11:59 PM
                     </p>
                   </div>
                 </div>
@@ -290,9 +290,8 @@ Please let me know if the studio is available at the requested date and time.`;
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="e.g. Your Name"
-                    className={`bg-[#f4f1ed]/50 border ${
-                      errors.name ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
-                    } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
+                    className={`bg-[#f4f1ed]/50 border ${errors.name ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
+                      } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
                   />
                   {errors.name && (
                     <span className="text-red-500 text-[10px] mt-1 font-semibold tracking-wide">
@@ -314,9 +313,8 @@ Please let me know if the studio is available at the requested date and time.`;
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="e.g. +91 96196 66066"
-                    className={`bg-[#f4f1ed]/50 border ${
-                      errors.phone ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
-                    } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
+                    className={`bg-[#f4f1ed]/50 border ${errors.phone ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
+                      } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
                   />
                   {errors.phone && (
                     <span className="text-red-500 text-[10px] mt-1 font-semibold tracking-wide">
@@ -340,9 +338,8 @@ Please let me know if the studio is available at the requested date and time.`;
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="e.g. rgbstudio@example.com"
-                    className={`bg-[#f4f1ed]/50 border ${
-                      errors.email ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
-                    } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
+                    className={`bg-[#f4f1ed]/50 border ${errors.email ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
+                      } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
                   />
                   {errors.email && (
                     <span className="text-red-500 text-[10px] mt-1 font-semibold tracking-wide">
@@ -404,9 +401,8 @@ Please let me know if the studio is available at the requested date and time.`;
                     required
                     value={formData.preferredStartTime}
                     onChange={handleChange}
-                    className={`bg-[#f4f1ed]/50 border ${
-                      errors.preferredStartTime ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
-                    } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
+                    className={`bg-[#f4f1ed]/50 border ${errors.preferredStartTime ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
+                      } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
                   />
                   {errors.preferredStartTime && (
                     <span className="text-red-500 text-[10px] mt-1 font-semibold tracking-wide">
@@ -440,9 +436,8 @@ Please let me know if the studio is available at the requested date and time.`;
                       value={formData.purposeDetails}
                       onChange={handleChange}
                       placeholder="Please describe your booking purpose"
-                      className={`bg-[#f4f1ed]/50 border ${
-                        errors.purposeDetails ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
-                      } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
+                      className={`bg-[#f4f1ed]/50 border ${errors.purposeDetails ? "border-red-500 focus:border-red-500" : "border-[#e8e1db] focus:border-[#c9a35b]"
+                        } px-4 py-3.5 text-xs text-[#111111] focus:outline-none transition-colors rounded`}
                     />
                     {errors.purposeDetails && (
                       <span className="text-red-500 text-[10px] mt-1 font-semibold tracking-wide">
